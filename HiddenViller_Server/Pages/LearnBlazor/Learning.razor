@@ -1,12 +1,34 @@
 ﻿@page "/learning"
 @inject IJSRuntime JSRuntime
 <h3 class="text-info">This is the learning page </h3>
-<button @onclick="CallJsFunction">click me</button>
-<button onclick="displayToast()">click me2</button>
+<button @onclick="CallJsFunction">Toast success</button>
+<button @onclick="CallJsFunction1">Toast Error</button>
+<button @onclick="CallJsFunction2">Toast Warning</button>
+<hr />
+<button @onclick="CallJsFunction3">Sweet success</button>
+<button @onclick="CallJsFunction4">Sweet error</button>
+
+
 
 @code {
     private async Task CallJsFunction()
     {
+        await JSRuntime.ToastrSuccess("success", "The download was a success");
+    }
+    private async Task CallJsFunction1()
+    {
+        await JSRuntime.ToastrError("success", "The download was a success");
+    }
+    private async Task CallJsFunction2()
+    {
+        await JSRuntime.ToastrWarning("success", "The download was a success");
+    }
+    private async Task CallJsFunction3()
+    {
         await JSRuntime.SweetAlertSuccess("success", "The download was a success");
+    }
+    private async Task CallJsFunction4()
+    {
+        await JSRuntime.SweetAlertError("success", "The download was a success");
     }
 }
