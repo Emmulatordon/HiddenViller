@@ -1,0 +1,122 @@
+﻿@page "/bindproppp"
+<div class="bg-light border p-2">
+    <h2 class="bg-light border p-2">First Room</h2>
+    <p>Room: @room.RoomName</p>
+    <p>Room Price: @room.Price</p>
+    <input type="number" @bind-value="@room.Price" @bind-value:event="oninput" />
+    <br />
+    <input type="checkbox" @bind-value="@room.IsActive" checked="@(room.IsActive?"checked":null)" /> &nbsp;Is Active
+    <br />
+    <span>The room is @(room.IsActive ? "Active" : "not Active")</span>
+</div>
+<div>
+    <br />
+    <h2 class="text-info">Room List [Assignment2]</h2>
+    <table class="table border table-dark">
+        @foreach (var room in RoomsList)
+        {
+            <tr>
+                <td>
+                    <input type="text" @bind-value="@room.RoomName" @bind-value:event ="oninput" />
+                </td>
+                <td>
+                    <input type="number" @bind-value="@room.Price" @bind-value:event="oninput" />
+                </td>
+                @foreach (var roomProp in room.RoomProps)
+                {
+                    <td>
+                        @roomProp.Name  -- @roomProp.Value
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+
+</div>
+
+
+@code{
+    BlazorRoom room = new BlazorRoom()
+        {
+            Id = 1,
+            RoomName = "First Room",
+            Price = 1200,
+            IsActive = true
+        };
+    string SelectedRoomProp = string.Empty;
+    List<BlazorRoom> RoomsList = new List<BlazorRoom>();
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        RoomsList = GetRooms();
+    }
+    List<BlazorRoom> GetRooms()
+    {
+        List<BlazorRoom> RoomsList = new List<BlazorRoom>();
+        RoomsList.Add(
+            new BlazorRoom()
+                {
+                    Id = 1,
+                    RoomName = "Vip",
+                    IsActive = true,
+                    Price = 1200,
+                    RoomProps = new List<BlazorRoomProp>()
+                    {
+                    new BlazorRoomProp()
+                        {
+                            Id = 1,
+                            Name = "With Tv",
+                            Value = "100"
+                        }
+                    }
+                }
+        );
+        RoomsList.Add(
+            new BlazorRoom()
+                {
+                    Id = 2,
+                    RoomName = "Simple Room",
+                    IsActive = false,
+                    Price = 12800,
+                    RoomProps = new List<BlazorRoomProp>()
+                    {
+                    new BlazorRoomProp()
+                        {
+                            Id = 2,
+                            Name = "Without Tv",
+                            Value = "1023"
+                        },
+                    new BlazorRoomProp()
+                        {
+                            Id = 5,
+                            Name = "Accountancy",
+                            Value = "10923"
+                        }
+
+                    }
+                }
+        );
+        RoomsList.Add(
+            new BlazorRoom()
+                {
+                    Id = 3,
+                    RoomName = "Guest",
+                    IsActive = false,
+                    Price = 1600,
+                    RoomProps = new List<BlazorRoomProp>()
+                    {
+                    new BlazorRoomProp()
+                    {
+                        Id = 3,
+                        Name = "With fridge",
+                        Value = "180"
+                    }
+                    }
+                }
+        );
+        return RoomsList;
+
+    }
+}

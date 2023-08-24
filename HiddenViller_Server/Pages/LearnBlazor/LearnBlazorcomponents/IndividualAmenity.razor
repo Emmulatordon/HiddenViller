@@ -1,0 +1,10 @@
+﻿<div class="col-3 bg-light p-2 border m-2 offset-3">
+    <h1>Amenities - @Amenity.Id</h1>
+    <p>Name - @Amenity.Name</p>
+    <p>Description: @Amenity.Description</p>
+</div>
+@code {
+    [Parameter]
+    public BlazorAmenities Amenity { get; set; }
+}
+
