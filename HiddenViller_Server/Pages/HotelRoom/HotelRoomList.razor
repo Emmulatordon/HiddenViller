@@ -3,7 +3,6 @@
 @using Business.Repository.IRepository;
 @inject IHotelRoomRepository HotelRoomRepository
 
-
 <div class="row mt-4">
     <div class="col-8">
         <h4 class="card-title text-info"> Hotel Rooms</h4>
@@ -31,8 +30,8 @@
                 {
                     @foreach (var room in HotelRooms)
                     {
-                       <tr>
-                           <td>@room.Name</td>
+                        <tr>
+                            <td>@room.Name</td>
                             <td>@room.Occupancy</td>
                             <td>@room.RegularRate.ToString("c")</td>
                             <td>@room.SqFt</td>
@@ -57,9 +56,11 @@
  
 
 @code {
+
     private IEnumerable<HotelRoomDTO> HotelRooms { get; set; } = new List<HotelRoomDTO>();
     protected override async Task OnInitializedAsync()
     {
         HotelRooms = await HotelRoomRepository.GetAllHotelRooms();
     }
+    
 }

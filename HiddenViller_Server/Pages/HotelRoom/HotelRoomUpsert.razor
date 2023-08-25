@@ -5,6 +5,7 @@
 @inject IHotelRoomRepository HotelRoomRepository
 @inject NavigationManager NavigationManager
 
+
 <div class="row mt-2 mb-5">
     <h3 class="card-title text-info mb-3 ml-3">Create Hotel Room</h3>
     <div class="col-md-12">
@@ -66,13 +67,33 @@
     }
     private async Task HandleHotelRoomUpsert()
     {
-        var roomDetailsByName = await HotelRoomRepository.IsRoomUnique(HotelRoomModel.Name);
-        if (roomDetailsByName !=null)
+        try
         {
-            //there is duplicate room show error
-            return;
+            var roomDetailsByName = await HotelRoomRepository.IsRoomUnique(HotelRoomModel.Name, HotelRoomModel.Id);
+            if (roomDetailsByName != null)
+            {
+                //there is duplicate room show error
+                await JSRuntime.ToastrError("A room with that name already Exists", "Duplicate Room");
+                return;
+            }
+            if (HotelRoomModel.Id != 0 && Title == "Update")
+            {
+                var updateResult = HotelRoomRepository.UpdateHotelRoom(HotelRoomModel.Id, HotelRoomModel);
+                await JSRuntime.ToastrSuccess("The Room was updated Successfully", "Updated");
+
+            }
+            else
+            {
+                var createdResult = HotelRoomRepository.CreateHotelRoom(HotelRoomModel);
+                await JSRuntime.ToastrSuccess("The Room was created Successfully", "Created");
+            }
+            NavigationManager.NavigateTo("/hotel-room",true);
+
         }
-        var createdResult = await HotelRoomRepository.CreateHotelRoom(HotelRoomModel);
-        NavigationManager.NavigateTo("hotel-room");
+        catch (Exception)
+        {
+            
+            throw;
+        }
     }
 }
