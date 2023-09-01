@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DataAccess.Data;
 using DataAcesss.Data;
 using Models;
 using System;
@@ -15,6 +16,7 @@ namespace Business.Mapper
         {
             CreateMap<HotelRoomDTO, HotelRoom>();
             CreateMap<HotelRoom, HotelRoomDTO>();
+            CreateMap<HotelRoomImageDTO, HotelRoomImage>().ReverseMap();
         }
     }
 }
