@@ -26,5 +26,17 @@ namespace HiddenViller_Server.Helper
         {
             await Runtime.InvokeVoidAsync("Swal.fire", heading, message, "error");
         }
+        public static async ValueTask ShowDeleteConfirmationModal(this IJSRuntime Runtime)
+        {
+            await Runtime.InvokeVoidAsync("ShowDeleteConfirmationModal");
+        }
+        public static async ValueTask HideDeleteConfirmationModal(this IJSRuntime Runtime)
+        {
+            await Runtime.InvokeVoidAsync("HideDeleteConfirmationModal");
+        }
+        public static async ValueTask TestMainJs(this IJSRuntime Runtime)
+        {
+            await Runtime.InvokeVoidAsync("Test");
+        }
     }
 }

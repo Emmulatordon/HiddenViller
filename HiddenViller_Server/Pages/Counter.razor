@@ -5,12 +5,14 @@
 <p>Current count: @currentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<DeleteConfirmation></DeleteConfirmation>
 
 @code {
     private int currentCount = 0;
 
-    private void IncrementCount()
+    private async void IncrementCount()
     {
+        await JSRuntime.ShowDeleteConfirmationModal();
         currentCount++;
     }
 }

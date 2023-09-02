@@ -41,14 +41,14 @@ namespace Business.Repository
         }
         public async Task<int> DeleteHotelRoom(int roomId)
         {
-            var roomToDelete = await _db.HotelRooms.FindAsync(roomId);
-            if (roomToDelete!=null)
+            var roomDetails = await _db.HotelRooms.FindAsync(roomId);
+            if (roomDetails != null)
             {
-                _db.HotelRooms.Remove(roomToDelete);
+                _db.HotelRooms.Remove(roomDetails);
                 return await _db.SaveChangesAsync();
             }
             return 0;
- 
+
         }
         public async Task<IEnumerable<HotelRoomDTO>> GetAllHotelRooms()
         {
@@ -56,7 +56,7 @@ namespace Business.Repository
             {
 
                 IEnumerable<HotelRoomDTO> hotelRoomDTOs =
-                    _mapper.Map<IEnumerable<HotelRoom>, IEnumerable<HotelRoomDTO>>(_db.HotelRooms.Include(x => x.HotelRoomImages));
+                    _mapper.Map<IEnumerable<HotelRoom>, IEnumerable<HotelRoomDTO>>(await _db.HotelRooms.Include(x => x.HotelRoomImages).ToListAsync());
                 return hotelRoomDTOs;
             }
             catch (Exception ex)
