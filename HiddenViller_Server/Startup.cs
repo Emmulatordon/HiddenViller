@@ -38,7 +38,9 @@ namespace HiddenViller_Server
             opts.UseSqlServer(Configuration.GetConnectionString("sqlCon")));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IHotelRoomRepository, HotelRoomRepository>();
+            services.AddScoped<IAmenityRepository, AmenityRepository>();
             services.AddScoped<IHotelImagesRepository, HotelImagesRepository>();
+            services.AddHttpContextAccessor();
             services.AddScoped<IFileUpload, FileUpload>();
             services.AddRazorPages();
             services.AddServerSideBlazor();

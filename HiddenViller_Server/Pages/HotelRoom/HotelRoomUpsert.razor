@@ -81,7 +81,7 @@
 @code {
     [Parameter]
     public int? Id { get; set; }
-    private HotelRoomDTO HotelRoomModel { get; set; } = new HotelRoomDTO();
+    private HotelRoomDTO HotelRoomModel { get; set; } = new HotelRoomDTO();    
     private List<string> DeletedImageNames { get; set; } = new List<string>();
     private HotelRoomImageDTO RoomImage { get; set; }
     private bool IsImageUploadProcessStarted { get; set; } = false;
@@ -101,6 +101,7 @@
         {
             Title = "Create";
             HotelRoomModel = new HotelRoomDTO();
+            HotelRoomModel.ImageUrls = new List<string>();
         }
     }
     private async Task HandleHotelRoomUpsert()
@@ -125,7 +126,7 @@
                     {
                         foreach (var deletedImageName in DeletedImageNames)
                         {
-                            var imageName = deletedImageName.Replace($"RoomImages/", "");
+                            var imageName = deletedImageName.Replace($"{NavigationManager.BaseUri}RoomImages/", "");
 
                             var result = FileUpload.DeleteFile(imageName);
                             await HotelImagesRepository.DeleteHotelImageByImageUrl(deletedImageName);
@@ -227,7 +228,7 @@
         try
         {
             var imageIndex = HotelRoomModel.ImageUrls.FindIndex(x => x == imageUrl);
-            var imageName = imageUrl.Replace($"RoomImages/", "");
+            var imageName = imageUrl.Replace($"{NavigationManager.BaseUri}RoomImages/", "");
             if (HotelRoomModel.Id == 0 && Title == "Create")
             {
                 var result = FileUpload.DeleteFile(imageName);
