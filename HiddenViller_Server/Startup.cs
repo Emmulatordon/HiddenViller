@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +37,10 @@ namespace HiddenViller_Server
             //opts.UseSqlServer(Configuration.GetConnectionString("sqlCon")));
             services.AddDbContext<ApplicationDbContext>(opts =>
             opts.UseSqlServer(Configuration.GetConnectionString("sqlCon")));
+            services.AddIdentity<IdentityUser, IdentityRole>().
+                AddEntityFrameworkStores<ApplicationDbContext>().
+                AddDefaultTokenProviders().
+                AddDefaultUI();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IHotelRoomRepository, HotelRoomRepository>();
             services.AddScoped<IAmenityRepository, AmenityRepository>();
@@ -65,9 +70,12 @@ namespace HiddenViller_Server
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
