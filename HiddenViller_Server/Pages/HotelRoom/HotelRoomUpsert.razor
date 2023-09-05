@@ -86,8 +86,16 @@
     private HotelRoomImageDTO RoomImage { get; set; }
     private bool IsImageUploadProcessStarted { get; set; } = false;
     private string Title { get; set; } = "Create";
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
     protected async override Task OnInitializedAsync()
     {
+        var state = await AuthenticationState;
+        if (!state.User.IsInRole(Common.SD.RoleAdmin))
+        {
+            var uri = new Uri(NavigationManager.Uri);
+            NavigationManager.NavigateTo($"/identity/account/login?returnUrl={uri.LocalPath}");
+        }
         if (Id!=null)
         {
             Title = "Update";
