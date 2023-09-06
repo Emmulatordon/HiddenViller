@@ -1,6 +1,8 @@
 using Business.Repository;
 using Business.Repository.IRepository;
 using DataAccess.Data;
+using HiddenVilla_Server.Service;
+using HiddenVilla_Server.Service.IService;
 using HiddenViller_Server.Data;
 using HiddenViller_Server.Service;
 using HiddenViller_Server.Service.IService;
@@ -41,6 +43,7 @@ namespace HiddenViller_Server
                 AddEntityFrameworkStores<ApplicationDbContext>().
                 AddDefaultTokenProviders().
                 AddDefaultUI();
+            services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IHotelRoomRepository, HotelRoomRepository>();
             services.AddScoped<IAmenityRepository, AmenityRepository>();
@@ -53,7 +56,7 @@ namespace HiddenViller_Server
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -68,11 +71,10 @@ namespace HiddenViller_Server
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            dbInitializer.Initalize();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

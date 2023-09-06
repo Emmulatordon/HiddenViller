@@ -3,7 +3,7 @@
 @using Business.Repository.IRepository
 @inject IAmenityRepository AmenityRepository
 @inject NavigationManager NavigationManager
-@attribute [Authorize]
+@attribute [Authorize(Roles = Common.SD.RoleAdmin)]
 
 <div class="row mt-4">
     <div class="col-6">
