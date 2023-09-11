@@ -5,6 +5,8 @@ using System.Globalization;
 using System;
 using System.Threading.Tasks;
 using Models;
+using Microsoft.AspNetCore.Authorization;
+using Common;
 
 namespace HiddenVilla_Api.Controllers
 {
@@ -20,6 +22,7 @@ namespace HiddenVilla_Api.Controllers
         }
 
         [HttpGet]
+        
         public async Task<IActionResult> GetHotelRooms()
         {
             var allRooms = await _hotelRoomRepository.GetAllHotelRooms();
